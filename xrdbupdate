@@ -1,2 +1,5 @@
 #!/bin/sh
 xrdb ~/.Xresources
+for file in "~/.xrdb/*.xresources"; do
+	xrdb -merge "$file"
+done
