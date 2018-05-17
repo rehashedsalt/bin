@@ -1,5 +1,9 @@
 #!/bin/sh
-xrdb ~/.Xresources
+if [ -f ~/.Xresources ]; then
+	xrdb ~/.Xresources
+	printf "Loading .Xresources...\n"
+fi
 for file in ~/.xrdb/*.xresources; do
+	printf "Merging in $file...\n"
 	xrdb -merge "$file"
 done
