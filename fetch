@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ `which neofetch` ]; then
+	neofetch\
+	       	--disable model resolution\
+	       	--block_range 0 15\
+		--image wall\
+		--xoffset 4 --yoffset 4\
+		--scrot "$HOME/Pictures/Screenshots/neofetch-`date +%s`.png"
+else
+	prinf 'fetch: Neofetch is not installed; aborting\n'
+fi
