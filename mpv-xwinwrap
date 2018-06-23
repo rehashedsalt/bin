@@ -40,7 +40,7 @@ function video-play {
 }
 
 function video-validate {
-	if [[ "$(curl -Is $1 | head -1)" = *"200"* ]] && [[ "$1" = *"youtu"* ]]; then
+	if youtube-dl -e $1; then
 		return 0
 	fi
 	return 1
