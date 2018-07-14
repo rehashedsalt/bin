@@ -20,10 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+name="$(basename $0)"
+
 if [ "$XDG_DATA_HOME" = "" ]; then
-	cachefile="$HOME/.local/share/mpv-wrapcache"
+	cachefile="$HOME/.local/share/$name.cache"
 else
-	cachefile="$XDG_DATA_HOME/mpv-wrapcache"
+	cachefile="$XDG_DATA_HOME/$name.cache"
 fi
 
 if ! [ -f "$cachefile" ]; then
@@ -71,17 +73,17 @@ function cache-lookup-by-name {
 }
 
 function input-get {
-	cache-populate | rofi -dmenu -p 'Embed video: '
+	cache-populate | rofi -dmenu -p "$name"
 	return 0
 }
 
 function soft-notify {
-	notify-send -u low -t 3000 -a 'mpv-xwinwrap' "$1" "$2"
+	notify-send -u low -t 3000 -a '$name' "$1" "$2"
 	return 0
 }
 
 function hard-notify {
-	notify-send -u normal -t 10000 -a 'mpv-xwinwrap' "$1" "$2"
+	notify-send -u normal -t 10000 -a '$name' "$1" "$2"
 	return 0
 }
 
@@ -99,8 +101,8 @@ if cache-lookup-by-name "$input"; then
 fi
 
 if ! video-validate $input; then
-	hard-notify "Unable to Find Video" "Please verify that the URL is a valid YouTube address and try again."
-	printf "Not a valid stream: $input\n"
+	hard-notify "Unable to Find Video" "Please verify that the URL is a valid video and try again."
+	printf "Not a valid stream: $input\n" 1>&2
 	exit 1
 fi
 
