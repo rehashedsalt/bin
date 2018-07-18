@@ -52,7 +52,7 @@ function cache-add {
 	if [[ "$cachecontent" == *"$1"* ]]; then
 		return 1
 	fi
-	name="$(youtube-dl -e $1)"
+	name="$(youtube-dl -s $1)"
 	printf "$name\n$1\n" >> $cachefile
 	return 0
 }
@@ -78,12 +78,12 @@ function input-get {
 }
 
 function soft-notify {
-	notify-send -u low -t 3000 -a '$name' "$1" "$2"
+	notify-send -u low -t 3000 -a "$name" "$1" "$2"
 	return 0
 }
 
 function hard-notify {
-	notify-send -u normal -t 10000 -a '$name' "$1" "$2"
+	notify-send -u normal -t 10000 -a "$name" "$1" "$2"
 	return 0
 }
 
@@ -95,9 +95,8 @@ fi
 printf "Input: $input\n"
 
 if cache-lookup-by-name "$input"; then
-	printf "Lookup successful: \n"
 	input="$(cache-lookup-by-name "$input")"
-	printf "\n"
+	printf "Lookup successful: $input\n"
 fi
 
 if ! video-validate $input; then
